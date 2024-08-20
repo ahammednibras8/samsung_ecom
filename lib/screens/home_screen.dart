@@ -44,7 +44,8 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.grey[900],
         child: Column(
           children: [
-            DrawerHeader(
+            Container(
+              height: 300,
               padding: const EdgeInsets.symmetric(horizontal: 36),
               child: Image.asset(
                 'assets/logo.png',

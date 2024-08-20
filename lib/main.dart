@@ -1,4 +1,4 @@
-import 'package:ecom/screens/intro_screens.dart';
+import 'package:ecom/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -12,7 +12,10 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: IntroScreens(),
+      home: LoginScreen(),
     );
   }
 }
+
+//zoom drawer Package
+//Curved Animation bar

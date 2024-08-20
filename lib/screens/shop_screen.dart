@@ -5,10 +5,15 @@ class ShopScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey[300],
-      body: const Center(
-        child: Text('Shop Screen'),
+    return GestureDetector(
+      onTap: () {
+        Focus.of(context).unfocus();
+      },
+      child: Scaffold(
+        backgroundColor: Colors.grey[300],
+        body: const Center(
+          child: TextField(),
+        ),
       ),
     );
   }

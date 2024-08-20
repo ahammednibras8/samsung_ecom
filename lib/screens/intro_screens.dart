@@ -1,5 +1,6 @@
 import 'package:ecom/screens/home_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class IntroScreens extends StatelessWidget {
   const IntroScreens({super.key});
@@ -53,13 +54,16 @@ class IntroScreens extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(top: 120),
-              child: GestureDetector(
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const HomeScreen(),
-                  ),
-                ),
+              child: InkWell(
+                onTap: () {
+                  HapticFeedback.lightImpact();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const HomeScreen(),
+                    ),
+                  );
+                },
                 child: Container(
                   height: 70,
                   width: 450,
