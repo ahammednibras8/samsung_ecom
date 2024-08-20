@@ -12,14 +12,17 @@ class BottomNavBar extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 30),
       child: GNav(
         color: Colors.grey[400],
-        activeColor: Colors.grey.shade700,
+        activeColor: Colors.black87,
         tabActiveBorder: Border.all(
           color: Colors.white,
         ),
+        haptic: true,
+        tabMargin: const EdgeInsets.symmetric(horizontal: 12),
         tabBackgroundColor: Colors.grey.shade100,
         mainAxisAlignment: MainAxisAlignment.center,
         tabBorderRadius: 12,
         onTabChange: (value) => onTabChange!(value),
+        gap: 32,
         tabs: const [
           GButton(
             icon: Icons.home,
