@@ -1,44 +1,35 @@
 import 'package:ecom/screens/intro_screens.dart';
-import 'package:ecom/screens/signup_screen.dart';
+import 'package:ecom/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class SignupScreen extends StatefulWidget {
+  const SignupScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SignupScreen> createState() => _SignupScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _controllerUsername = TextEditingController();
 
   final TextEditingController _controllerPassword = TextEditingController();
 
-  Future<void> _login(BuildContext context) async {
+  Future<void> _signup() async {
     final prefrences = await SharedPreferences.getInstance();
-    String? usernames = prefrences.getString('username');
-    String? passwords = prefrences.getString('password');
+    await prefrences.setString('username', _controllerUsername.text);
+    await prefrences.setString('password', _controllerPassword.text);
 
     print(prefrences.getString('username'));
     print(prefrences.getString('password'));
 
-    if (_controllerUsername.text == usernames &&
-        _controllerPassword.text == passwords) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const IntroScreens(),
-        ),
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Invalid Username or password'),
-        ),
-      );
-    }
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => LoginScreen(),
+      ),
+    );
   }
 
   @override
@@ -80,7 +71,6 @@ class _LoginScreenState extends State<LoginScreen> {
             const SizedBox(height: 34),
             TextField(
               controller: _controllerUsername,
-              // obscureText: true,
               cursorColor: Colors.black,
               decoration: const InputDecoration(
                 filled: true,
@@ -104,6 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
             TextField(
               controller: _controllerPassword,
               cursorColor: Colors.black,
+              // obscureText: true,
               decoration: const InputDecoration(
                 filled: true,
                 fillColor: Colors.white,
@@ -126,7 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
             GestureDetector(
               onTap: () {
                 HapticFeedback.lightImpact();
-                _login(context);
+                _signup();
               },
               child: Container(
                 width: 330,
@@ -137,7 +128,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 child: const Center(
                   child: Text(
-                    'Login',
+                    'Sign Up',
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -170,7 +161,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 child: const Center(
                   child: Text(
-                    'Continue without Login',
+                    'Continue without Sign Up',
                     style: TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
@@ -188,7 +179,7 @@ class _LoginScreenState extends State<LoginScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
-                  'Don\'t have an account?',
+                  'Already have an account?',
                   style: TextStyle(
                     fontWeight: FontWeight.w500,
                   ),
@@ -199,12 +190,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const SignupScreen(),
+                        builder: (context) => LoginScreen(),
                       ),
                     );
                   },
                   child: const Text(
-                    'Sign Up',
+                    'Login',
                     style: TextStyle(
                       color: Colors.blue,
                       fontWeight: FontWeight.w700,
