@@ -1,4 +1,5 @@
 import 'package:ecom/components/bottom_nav_bar.dart';
+import 'package:ecom/main.dart';
 import 'package:ecom/screens/cart_screen.dart';
 import 'package:ecom/screens/shop_screen.dart';
 import 'package:flutter/material.dart';
@@ -53,20 +54,78 @@ class _HomeScreenState extends State<HomeScreen> {
                 fit: BoxFit.fitWidth,
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.only(left: 25),
-              child: ListTile(
-                leading: Icon(
-                  Icons.home,
-                  color: Colors.white,
-                ),
-                title: Text(
-                  'Home',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
+            Padding(
+              padding: const EdgeInsets.only(left: 25),
+              child: Column(
+                children: [
+                  const Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ListTile(
+                        leading: Icon(
+                          Icons.home,
+                          color: Colors.white,
+                        ),
+                        title: Text(
+                          'Home',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      ListTile(
+                        leading: Icon(
+                          Icons.shopping_bag,
+                          color: Colors.white,
+                        ),
+                        title: Text(
+                          'Shop',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      ListTile(
+                        leading: Icon(
+                          Icons.info,
+                          color: Colors.white,
+                        ),
+                        title: Text(
+                          'About Me',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
+                  ListTile(
+                    leading: const Icon(
+                      Icons.logout,
+                      color: Colors.white,
+                    ),
+                    title: const Text(
+                      'Logout',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const MainApp(
+                            isLogin: false,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ],
               ),
             )
           ],

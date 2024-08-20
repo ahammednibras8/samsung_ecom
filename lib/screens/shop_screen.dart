@@ -12,7 +12,7 @@ class ShopScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Colors.grey[300],
         body: const Center(
-          child: TextField(),
+          child: Text('Shop Screen'),
         ),
       ),
     );
