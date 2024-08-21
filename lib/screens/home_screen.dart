@@ -57,79 +57,73 @@ class _HomeScreenState extends State<HomeScreen> {
       drawer: Drawer(
         backgroundColor: Colors.grey[900],
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Container(
-              height: 300,
-              padding: const EdgeInsets.symmetric(horizontal: 36),
-              child: Image.asset(
-                'assets/logo.png',
-                color: Colors.white,
-                fit: BoxFit.fitWidth,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 25),
-              child: Column(
-                children: [
-                  const Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      ListTile(
-                        leading: Icon(
-                          Icons.home,
-                          color: Colors.white,
-                        ),
-                        title: Text(
-                          'Home',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      ListTile(
-                        leading: Icon(
-                          Icons.shopping_bag,
-                          color: Colors.white,
-                        ),
-                        title: Text(
-                          'Shop',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      ListTile(
-                        leading: Icon(
-                          Icons.info,
-                          color: Colors.white,
-                        ),
-                        title: Text(
-                          'About Me',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ],
+            Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: 100,
+                    left: 30,
+                    right: 30,
+                    bottom: 40,
                   ),
-                  ListTile(
-                    leading: const Icon(
-                      Icons.logout,
+                  child: SizedBox(
+                    child: Image.asset(
+                      'assets/logo.png',
                       color: Colors.white,
                     ),
-                    title: const Text(
-                      'Logout',
+                  ),
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(left: 25),
+                  child: ListTile(
+                    leading: Icon(
+                      Icons.home,
+                      color: Colors.white,
+                    ),
+                    title: Text(
+                      'Home',
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    onTap: _logout,
                   ),
-                ],
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(left: 25),
+                  child: ListTile(
+                    leading: Icon(
+                      Icons.info,
+                      color: Colors.white,
+                    ),
+                    title: Text(
+                      'About Me',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 25, bottom: 65),
+              child: ListTile(
+                onTap: _logout,
+                leading: const Icon(
+                  Icons.logout,
+                  color: Colors.white,
+                ),
+                title: const Text(
+                  'Log Out',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
             )
           ],
