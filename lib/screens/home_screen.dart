@@ -1,8 +1,9 @@
 import 'package:ecom/components/bottom_nav_bar.dart';
-import 'package:ecom/main.dart';
 import 'package:ecom/screens/cart_screen.dart';
+import 'package:ecom/screens/login_screen.dart';
 import 'package:ecom/screens/shop_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -14,13 +15,25 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
 
+  final List<Widget> _screens = [const ShopScreen(), const CartScreen()];
+
   void navigateBottomBar(int index) {
     setState(() {
       _selectedIndex = index;
     });
   }
 
-  final List<Widget> _screens = [const ShopScreen(), const CartScreen()];
+  Future<void> _logout() async {
+    final prefrences = await SharedPreferences.getInstance();
+    await prefrences.setBool('isLogin', false);
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const LoginScreen(),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -114,16 +127,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const MainApp(
-                            isLogin: false,
-                          ),
-                        ),
-                      );
-                    },
+                    onTap: _logout,
                   ),
                 ],
               ),

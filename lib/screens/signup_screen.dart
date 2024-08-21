@@ -13,20 +13,52 @@ class SignupScreen extends StatefulWidget {
 
 class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _controllerUsername = TextEditingController();
-
   final TextEditingController _controllerPassword = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  String? _errorMessage;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controllerUsername.addListener(() {
+      if (_errorMessage != null) {
+        setState(() {
+          _errorMessage = null;
+        });
+      }
+    });
+  }
+
+  String? _formValidation(String? value) {
+    if (value == null || value.isEmpty) {
+      setState(() {
+        _errorMessage = 'Invalid username or password';
+      });
+      return _errorMessage;
+    }
+    return null;
+  }
 
   Future<void> _signup() async {
-    final prefrences = await SharedPreferences.getInstance();
-    await prefrences.setString('username', _controllerUsername.text);
-    await prefrences.setString('password', _controllerPassword.text);
-    await prefrences.setBool('isLogin', true);
+    if (_formKey.currentState?.validate() ?? false) {
+      final prefrences = await SharedPreferences.getInstance();
+      await prefrences.setString('username', _controllerUsername.text);
+      await prefrences.setString('password', _controllerPassword.text);
+      await prefrences.setBool('isLogin', true);
 
-    if (prefrences.getBool('isLogin') == true) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const IntroScreens(),
+      if (prefrences.getBool('isLogin') == true) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const IntroScreens(),
+          ),
+        );
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Invalid username or password'),
         ),
       );
     }
@@ -73,48 +105,58 @@ class _SignupScreenState extends State<SignupScreen> {
                 ],
               ),
               const SizedBox(height: 34),
-              TextField(
-                controller: _controllerUsername,
-                cursorColor: Colors.black,
-                decoration: const InputDecoration(
-                  filled: true,
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.black,
-                      width: 2,
+              Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    TextFormField(
+                      controller: _controllerUsername,
+                      validator: _formValidation,
+                      forceErrorText: _errorMessage,
+                      cursorColor: Colors.black,
+                      decoration: const InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+                        border: OutlineInputBorder(),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.black,
+                            width: 2,
+                          ),
+                        ),
+                        hintText: 'username',
+                        hintStyle: TextStyle(
+                          fontFamily: 'Arial',
+                          fontWeight: FontWeight.w300,
+                          color: Colors.black54,
+                        ),
+                      ),
                     ),
-                  ),
-                  hintText: 'username',
-                  hintStyle: TextStyle(
-                    fontFamily: 'Arial',
-                    fontWeight: FontWeight.w300,
-                    color: Colors.black54,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 8),
-              TextField(
-                controller: _controllerPassword,
-                cursorColor: Colors.black,
-                // obscureText: true,
-                decoration: const InputDecoration(
-                  filled: true,
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.black,
-                      width: 2,
+                    const SizedBox(height: 8),
+                    TextFormField(
+                      controller: _controllerPassword,
+                      validator: _formValidation,
+                      forceErrorText: _errorMessage,
+                      cursorColor: Colors.black,
+                      decoration: const InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+                        border: OutlineInputBorder(),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.black,
+                            width: 2,
+                          ),
+                        ),
+                        hintText: 'password',
+                        hintStyle: TextStyle(
+                          fontFamily: 'Arial',
+                          fontWeight: FontWeight.w300,
+                          color: Colors.black54,
+                        ),
+                      ),
                     ),
-                  ),
-                  hintText: 'password',
-                  hintStyle: TextStyle(
-                    fontFamily: 'Arial',
-                    fontWeight: FontWeight.w300,
-                    color: Colors.black54,
-                  ),
+                  ],
                 ),
               ),
               const SizedBox(height: 23),
