@@ -7,9 +7,11 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final SharedPreferences preferences = await SharedPreferences.getInstance();
   final bool isLogin = preferences.getBool('isLogin') ?? false;
-  runApp(MainApp(
-    isLogin: isLogin,
-  ));
+  runApp(
+    MainApp(
+      isLogin: isLogin,
+    ),
+  );
 }
 
 class MainApp extends StatelessWidget {

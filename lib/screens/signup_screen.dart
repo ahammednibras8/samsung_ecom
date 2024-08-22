@@ -1,5 +1,8 @@
+import 'package:ecom/components/phone_field.dart';
+import 'package:ecom/components/text_box.dart';
 import 'package:ecom/screens/intro_screens.dart';
 import 'package:ecom/screens/login_screen.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,8 +17,9 @@ class SignupScreen extends StatefulWidget {
 class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _controllerUsername = TextEditingController();
   final TextEditingController _controllerPassword = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _controllerEmail = TextEditingController();
   String? _errorMessage;
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -30,15 +34,15 @@ class _SignupScreenState extends State<SignupScreen> {
     });
   }
 
-  Future<void> _signup(context) async {
+  Future<void> _signup(BuildContext context) async {
     if (_formKey.currentState?.validate() ?? false) {
-      final prefrences = await SharedPreferences.getInstance();
-      await prefrences.setString('username', _controllerUsername.text);
-      await prefrences.setString('password', _controllerPassword.text);
-      await prefrences.setBool('isLogin', true);
+      final preferences = await SharedPreferences.getInstance();
+      await preferences.setString('username', _controllerUsername.text);
+      await preferences.setString('password', _controllerPassword.text);
+      await preferences.setBool('isLogin', true);
 
-      if (prefrences.getBool('isLogin') == true) {
-        Navigator.push(
+      if (preferences.getBool('isLogin') == true) {
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) => const IntroScreens(),
@@ -48,7 +52,7 @@ class _SignupScreenState extends State<SignupScreen> {
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Invalid username or password'),
+          content: Text('Please fill all fields correctly'),
         ),
       );
     }
@@ -62,7 +66,7 @@ class _SignupScreenState extends State<SignupScreen> {
       },
       child: Scaffold(
         backgroundColor: Colors.grey.shade300,
-        body: Padding(
+        body: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -99,62 +103,33 @@ class _SignupScreenState extends State<SignupScreen> {
                 key: _formKey,
                 child: Column(
                   children: [
-                    TextFormField(
-                      controller: _controllerUsername,
+                    const PhoneField(),
+                    const SizedBox(height: 8),
+                    MyTextBox(
+                      controllerUsername: _controllerEmail,
+                      errorMessage: _errorMessage,
+                      text: 'Email',
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Invalid username';
+                          return 'Please enter an email';
+                        }
+                        if (!EmailValidator.validate(value)) {
+                          return 'Please enter a valid email';
                         }
                         return null;
                       },
-                      forceErrorText: _errorMessage,
-                      cursorColor: Colors.black,
-                      decoration: const InputDecoration(
-                        filled: true,
-                        fillColor: Colors.white,
-                        border: OutlineInputBorder(),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.black,
-                            width: 2,
-                          ),
-                        ),
-                        hintText: 'username',
-                        hintStyle: TextStyle(
-                          fontFamily: 'Arial',
-                          fontWeight: FontWeight.w300,
-                          color: Colors.black54,
-                        ),
-                      ),
                     ),
                     const SizedBox(height: 8),
-                    TextFormField(
-                      controller: _controllerPassword,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Invalid Password';
-                        }
-                        return null;
-                      },
-                      forceErrorText: _errorMessage,
-                      cursorColor: Colors.black,
-                      decoration: const InputDecoration(
-                        filled: true,
-                        fillColor: Colors.white,
-                        border: OutlineInputBorder(),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.black,
-                            width: 2,
-                          ),
-                        ),
-                        hintText: 'password',
-                        hintStyle: TextStyle(
-                          fontFamily: 'Arial',
-                          fontWeight: FontWeight.w300,
-                          color: Colors.black54,
-                        ),
-                      ),
+                    MyTextBox(
+                      controllerUsername: _controllerUsername,
+                      errorMessage: _errorMessage,
+                      text: 'Username',
+                    ),
+                    const SizedBox(height: 8),
+                    MyTextBox(
+                      controllerUsername: _controllerPassword,
+                      errorMessage: _errorMessage,
+                      text: 'Password',
                     ),
                   ],
                 ),
@@ -188,7 +163,7 @@ class _SignupScreenState extends State<SignupScreen> {
               GestureDetector(
                 onTap: () {
                   HapticFeedback.lightImpact();
-                  Navigator.push(
+                  Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
                       builder: (context) => const IntroScreens(),
@@ -233,10 +208,10 @@ class _SignupScreenState extends State<SignupScreen> {
                   const SizedBox(width: 9),
                   GestureDetector(
                     onTap: () {
-                      Navigator.push(
+                      Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => LoginScreen(),
+                          builder: (context) => const LoginScreen(),
                         ),
                       );
                     },
