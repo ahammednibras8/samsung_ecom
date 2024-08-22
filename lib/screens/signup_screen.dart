@@ -34,7 +34,7 @@ class _SignupScreenState extends State<SignupScreen> {
     });
   }
 
-  Future<void> _signup(BuildContext context) async {
+  Future<void> _signup(context) async {
     if (_formKey.currentState?.validate() ?? false) {
       final preferences = await SharedPreferences.getInstance();
       await preferences.setString('username', _controllerUsername.text);
