@@ -23,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  Future<void> _logout() async {
+  Future<void> _logout(context) async {
     final prefrences = await SharedPreferences.getInstance();
     await prefrences.setBool('isLogin', false);
 
@@ -118,9 +118,9 @@ class _HomeScreenState extends State<HomeScreen> {
             Padding(
               padding: const EdgeInsets.only(left: 25, bottom: 65),
               child: ListTile(
-                onTap: _logout,
+                onTap: () => _logout(context),
                 leading: const Icon(
-                  Icons.logout,
+                  Icons.exit_to_app,
                   color: Colors.white,
                 ),
                 title: const Text(

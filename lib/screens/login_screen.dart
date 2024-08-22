@@ -30,18 +30,8 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
-  String? _formValidation(String? value) {
-    if (value == null || value.isEmpty) {
-      setState(() {
-        _errorMessage = 'Invalid username or password';
-      });
-      return _errorMessage;
-    }
-    return null;
-  }
-
-  Future<void> _login(BuildContext context) async {
-    if (_formKey.currentState?.validate() ?? false) {
+  Future<void> _login(context) async {
+    if (_formKey.currentState!.validate()) {
       final prefrences = await SharedPreferences.getInstance();
       String? usernames = prefrences.getString('username');
       String? passwords = prefrences.getString('password');
@@ -112,7 +102,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: [
                     TextFormField(
                       controller: _controllerUsername,
-                      validator: _formValidation,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Invalid username';
+                        }
+                        return null;
+                      },
                       forceErrorText: _errorMessage,
                       cursorColor: Colors.black,
                       decoration: const InputDecoration(
@@ -136,7 +131,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     const SizedBox(height: 8),
                     TextFormField(
                       controller: _controllerPassword,
-                      validator: _formValidation,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Invalid Password';
+                        }
+                        return null;
+                      },
                       forceErrorText: _errorMessage,
                       cursorColor: Colors.black,
                       decoration: const InputDecoration(
@@ -237,7 +237,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => SignupScreen(),
+                          builder: (context) => const SignupScreen(),
                         ),
                       );
                     },

@@ -81,9 +81,9 @@ class ShopCard extends StatelessWidget {
                     size: 30,
                     weight: 90,
                   ),
-                )
+                ),
               ],
-            )
+            ),
           ],
         ),
       ),
