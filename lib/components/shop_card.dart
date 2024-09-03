@@ -1,7 +1,9 @@
+import 'package:ecom/model/items.dart';
 import 'package:flutter/material.dart';
 
 class ShopCard extends StatelessWidget {
-  const ShopCard({super.key});
+  final int index;
+  const ShopCard({super.key, required this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -16,51 +18,54 @@ class ShopCard extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Column(
+            Padding(
+              padding: const EdgeInsets.only(top: 22),
+              child: Column(
+                children: [
+                  Image.asset(items[index].image),
+                ],
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset('assets/ultra.png'),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      'Galaxy AI',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Image.asset(
-                      'assets/ai.png',
-                      height: 28,
-                    ),
-                    const SizedBox(width: 12),
-                    const Text(
-                      'is here',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ],
+                const Text(
+                  'Galaxy AI',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Image.asset(
+                  'assets/ai.png',
+                  height: 28,
+                ),
+                const SizedBox(width: 12),
+                const Text(
+                  'is here',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Padding(
-                  padding: EdgeInsets.only(left: 23, bottom: 23),
+                Padding(
+                  padding: const EdgeInsets.only(left: 23, bottom: 23),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
-                        'S24 ULTRA',
-                        style: TextStyle(
+                        items[index].name,
+                        style: const TextStyle(
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       Text(
-                        '₹129999.00',
-                        style: TextStyle(color: Colors.grey),
+                        '₹${items[index].price}',
+                        style: const TextStyle(color: Colors.grey),
                       )
                     ],
                   ),
