@@ -15,6 +15,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
 
+  
+
   final List<Widget> _screens = [const ShopScreen(), const CartScreen()];
 
   void navigateBottomBar(int index) {

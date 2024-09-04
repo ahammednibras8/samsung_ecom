@@ -1,9 +1,29 @@
+import 'package:ecom/model/items.dart';
 import 'package:ecom/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hive/hive.dart';
 
 class IntroScreens extends StatelessWidget {
   const IntroScreens({super.key});
+
+  void loadingItems() async {
+    final _shopItems = Hive.box('itemsBox');
+
+    if (_shopItems.isEmpty) {
+      final itemsList = [
+        Items(name: 'S24 ULTRA', price: '129999', image: 'assets/ultra.png'),
+        Items(name: 'Galaxy Z Flip 6', price: '109999', image: 'assets/flip.png'),
+        Items(name: 'Galaxy Buds 3', price: '14999', image: 'assets/buds.png'),
+        Items(name: 'Galaxy Watch Ultra', price: '59999',image: 'assets/watch.png'),
+        Items(name: 'Galaxy Z Fold 6', price: '164999', image: 'assets/fold.png'),
+      ];
+
+      for (var item in itemsList) {
+        await _shopItems.add(item);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +76,7 @@ class IntroScreens extends StatelessWidget {
               padding: const EdgeInsets.only(top: 120),
               child: InkWell(
                 onTap: () {
+                  loadingItems();
                   HapticFeedback.lightImpact();
                   Navigator.push(
                     context,

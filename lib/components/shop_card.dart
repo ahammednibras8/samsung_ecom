@@ -1,9 +1,11 @@
-import 'package:ecom/model/items.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 
 class ShopCard extends StatelessWidget {
+  final _shopItems = Hive.box('itemsBox');
   final int index;
-  const ShopCard({super.key, required this.index});
+
+  ShopCard({super.key, required this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,7 @@ class ShopCard extends StatelessWidget {
               padding: const EdgeInsets.only(top: 22),
               child: Column(
                 children: [
-                  Image.asset(items[index].image),
+                  Image.asset(_shopItems.get(index).image),
                 ],
               ),
             ),
@@ -58,13 +60,13 @@ class ShopCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
-                        items[index].name,
+                        _shopItems.get(index).name,
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       Text(
-                        '₹${items[index].price}',
+                        '₹${_shopItems.get(index).price}',
                         style: const TextStyle(color: Colors.grey),
                       )
                     ],
