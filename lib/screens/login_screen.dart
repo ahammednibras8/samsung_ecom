@@ -1,7 +1,10 @@
+import 'package:ecom/model/cart_items.dart';
+import 'package:ecom/model/items.dart';
 import 'package:ecom/screens/intro_screens.dart';
 import 'package:ecom/screens/signup_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hive/hive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -42,7 +45,10 @@ class _LoginScreenState extends State<LoginScreen> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const IntroScreens(),
+            builder: (context) => IntroScreens(
+              cartBox: Hive.box<CartItems>('cartBox'),
+              itemsBox: Hive.box<Items>('itemsBox'),
+            ),
           ),
         );
       } else {
@@ -192,7 +198,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const IntroScreens(),
+                      builder: (context) => IntroScreens(
+                        cartBox: Hive.box<CartItems>('cartBox'),
+                        itemsBox: Hive.box<Items>('itemsBox'),
+                      ),
                     ),
                   );
                 },

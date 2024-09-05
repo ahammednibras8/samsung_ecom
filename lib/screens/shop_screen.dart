@@ -1,8 +1,11 @@
 import 'package:ecom/components/shop_card.dart';
+import 'package:ecom/model/items.dart';
 import 'package:flutter/material.dart';
-
+import 'package:hive/hive.dart';
 class ShopScreen extends StatelessWidget {
-  const ShopScreen({super.key});
+  final Box<Items> itemsBox;
+
+  const ShopScreen({super.key, required this.itemsBox});
 
   @override
   Widget build(BuildContext context) {
@@ -74,11 +77,12 @@ class ShopScreen extends StatelessWidget {
         const Divider(),
         Expanded(
           child: ListView.builder(
-              itemCount: 5,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) {
-                return ShopCard(index: index);
-              }),
+            itemCount: itemsBox.length, // Use itemsBox length
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (context, index) {
+              return ShopCard(index: index);
+            },
+          ),
         )
       ],
     );

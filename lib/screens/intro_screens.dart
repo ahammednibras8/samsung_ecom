@@ -1,26 +1,62 @@
+import 'package:ecom/model/cart_items.dart';
 import 'package:ecom/model/items.dart';
 import 'package:ecom/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 
-class IntroScreens extends StatelessWidget {
-  const IntroScreens({super.key});
+class IntroScreens extends StatefulWidget {
+  final Box<CartItems> cartBox;
+  final Box<Items> itemsBox;
+  const IntroScreens({
+    super.key,
+    required this.cartBox,
+    required this.itemsBox,
+  });
 
-  void loadingItems() async {
-    final _shopItems = Hive.box('itemsBox');
+  @override
+  State<IntroScreens> createState() => _IntroScreensState();
+}
 
-    if (_shopItems.isEmpty) {
+class _IntroScreensState extends State<IntroScreens> {
+  @override
+  void initState() {
+    super.initState();
+    loadingItems();
+  }
+
+  Future<void> loadingItems() async {
+    if (widget.itemsBox.isEmpty) {
       final itemsList = [
-        Items(name: 'S24 ULTRA', price: '129999', image: 'assets/ultra.png'),
-        Items(name: 'Galaxy Z Flip 6', price: '109999', image: 'assets/flip.png'),
-        Items(name: 'Galaxy Buds 3', price: '14999', image: 'assets/buds.png'),
-        Items(name: 'Galaxy Watch Ultra', price: '59999',image: 'assets/watch.png'),
-        Items(name: 'Galaxy Z Fold 6', price: '164999', image: 'assets/fold.png'),
+        Items(
+          name: 'S24 ULTRA',
+          price: '₹129999',
+          image: 'assets/ultra.png',
+        ),
+        Items(
+          name: 'Galaxy Z Flip 6',
+          price: '₹109999',
+          image: 'assets/flip.png',
+        ),
+        Items(
+          name: 'Galaxy Buds 3',
+          price: '₹14999',
+          image: 'assets/buds.png',
+        ),
+        Items(
+          name: 'Galaxy Watch Ultra',
+          price: '₹59999',
+          image: 'assets/watch.png',
+        ),
+        Items(
+          name: 'Galaxy Z Fold 6',
+          price: '₹164999',
+          image: 'assets/fold.png',
+        ),
       ];
 
       for (var item in itemsList) {
-        await _shopItems.add(item);
+        await widget.itemsBox.add(item);
       }
     }
   }
@@ -76,12 +112,14 @@ class IntroScreens extends StatelessWidget {
               padding: const EdgeInsets.only(top: 120),
               child: InkWell(
                 onTap: () {
-                  loadingItems();
-                  HapticFeedback.lightImpact();
+                  HapticFeedback.heavyImpact();
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const HomeScreen(),
+                      builder: (context) => HomeScreen(
+                        cartBox: widget.cartBox,
+                        itemsBox: widget.itemsBox,
+                      ),
                     ),
                   );
                 },

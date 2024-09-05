@@ -3,6 +3,7 @@ import 'package:ecom/screens/login_screen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+// ignore: library_prefixes
 import 'package:path_provider/path_provider.dart' as PathProvider;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -11,6 +12,7 @@ import 'model/items.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   final SharedPreferences preferences = await SharedPreferences.getInstance();
   final bool isLogin = preferences.getBool('isLogin') ?? false;
 
@@ -19,8 +21,7 @@ void main() async {
 
   //Initilizing Hive
   if (kIsWeb) {
-    final storage = await PathProvider.getApplicationDocumentsDirectory();
-    Hive.init(storage.path);
+    Hive.initFlutter();
   } else {
     await Hive.initFlutter(appDatabase.path);
     if (!Hive.isAdapterRegistered(CartItemsAdapter().typeId)) {
@@ -31,25 +32,34 @@ void main() async {
     }
   }
 
-  await Hive.openBox('cartBox');
-  await Hive.openBox('itemsBox');
+  final cartBox = await Hive.openBox<CartItems>('cartBox');
+  final itemsBox = await Hive.openBox<Items>('itemsBox'); // Open the box here
 
   runApp(
     MainApp(
       isLogin: isLogin,
+      cartBox: cartBox,
+      itemsBox: itemsBox, // Pass the opened box here
     ),
   );
 }
 
 class MainApp extends StatelessWidget {
   final bool isLogin;
-  const MainApp({super.key, required this.isLogin});
+  final Box<CartItems> cartBox;
+  final Box<Items> itemsBox;
+  const MainApp({
+    super.key,
+    required this.isLogin,
+    required this.cartBox,
+    required this.itemsBox,
+  });
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: isLogin ? const IntroScreens() : const LoginScreen(),
+      home: isLogin ? IntroScreens(cartBox: cartBox, itemsBox: itemsBox,) : const LoginScreen(),
     );
   }
 }

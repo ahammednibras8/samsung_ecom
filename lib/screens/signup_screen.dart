@@ -1,10 +1,13 @@
 import 'package:ecom/components/phone_field.dart';
 import 'package:ecom/components/text_box.dart';
+import 'package:ecom/model/cart_items.dart';
+import 'package:ecom/model/items.dart';
 import 'package:ecom/screens/intro_screens.dart';
 import 'package:ecom/screens/login_screen.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hive/hive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -45,7 +48,10 @@ class _SignupScreenState extends State<SignupScreen> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => const IntroScreens(),
+            builder: (context) => IntroScreens(
+              cartBox: Hive.box<CartItems>('cartBox'),
+              itemsBox: Hive.box('itemsBox'),
+            ),
           ),
         );
       }
@@ -166,7 +172,10 @@ class _SignupScreenState extends State<SignupScreen> {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const IntroScreens(),
+                      builder: (context) => IntroScreens(
+                        cartBox: Hive.box<CartItems>('cartBox'),
+                        itemsBox: Hive.box<Items>('itemsBox'),
+                      ),
                     ),
                   );
                 },

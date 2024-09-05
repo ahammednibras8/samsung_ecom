@@ -11,7 +11,7 @@ class MyTextBox extends StatelessWidget {
 
   final String? Function(String?)? validator;
 
-  MyTextBox({
+  const MyTextBox({
     super.key,
     required this.controllerUsername,
     required this.errorMessage,

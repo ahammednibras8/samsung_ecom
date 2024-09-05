@@ -1,12 +1,17 @@
 import 'package:ecom/components/bottom_nav_bar.dart';
+import 'package:ecom/model/cart_items.dart';
+import 'package:ecom/model/items.dart';
 import 'package:ecom/screens/cart_screen.dart';
 import 'package:ecom/screens/login_screen.dart';
 import 'package:ecom/screens/shop_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  final Box<CartItems> cartBox;
+  final Box<Items> itemsBox;
+  const HomeScreen({super.key, required this.cartBox, required this.itemsBox});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -15,9 +20,16 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
 
-  
+  late List<Widget> _screens;
 
-  final List<Widget> _screens = [const ShopScreen(), const CartScreen()];
+  @override
+  void initState() {
+    super.initState();
+    _screens = [
+      ShopScreen(itemsBox: widget.itemsBox),
+      const CartScreen(),
+    ];
+  }
 
   void navigateBottomBar(int index) {
     setState(() {
